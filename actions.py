@@ -16,6 +16,10 @@ MSG0 = "\nLa commande '{command_word}' ne prend pas de paramètre.\n"
 # The MSG1 variable is used when the command takes 1 parameter.
 MSG1 = "\nLa commande '{command_word}' prend 1 seul paramètre.\n"
 
+CARAC_SUP ="nseoud"
+CARAC_REPLACE = "NSEOUD"
+
+
 class Actions:
 
     def go(game, list_of_words, number_of_parameters):
@@ -55,9 +59,29 @@ class Actions:
 
         # Get the direction from the list of words.
         direction = list_of_words[1]
+        table = str.maketrans(CARAC_SUP, CARAC_REPLACE)
+        direction = direction.translate(table)
         # Move the player in the direction specified by the parameter.
-        player.move(direction)
-        return True
+        if direction == "N":
+            player.move(direction)
+            return True
+        elif direction == "S":
+            player.move(direction)
+            return True
+        elif direction == "E":
+            player.move(direction)
+            return True
+        elif direction == "O":
+            player.move(direction)
+            return True
+        elif direction == "U":
+            player.move(direction)
+            return True
+        elif direction == "D":
+            player.move(direction)
+            return True
+        else:
+            print("\nLa Direction n'est pas valide!\n")
 
     def quit(game, list_of_words, number_of_parameters):
         """
