@@ -1,24 +1,24 @@
-#player
+# Define the Player class.
+class Player():
 
-class player:
-
-    #define the constructor
-    def __init__(self,name,team, inventaire):
+    # Define the constructor.
+    def __init__(self, name):
         self.name = name
-        self.team = team
-        self.inventaire = inventaire
-        self.current_region = None
+        self.current_room = None
+    
+    # Define the move method.
+    def move(self, direction):
+        # Get the next room from the exits dictionary of the current room.
+        next_room = self.current_room.exits[direction]
 
-    def move(self,direction):
-        next_region = self.current_region.exit[direction]
-
-        if next_region is None:
+        # If the next room is None, print an error message and return False.
+        if next_room is None:
             print("\nAucune porte dans cette direction !\n")
             return False
         
-
-        self.current_room = next_region
+        # Set the current room to the next room.
+        self.current_room = next_room
         print(self.current_room.get_long_description())
         return True
-    
+
     
