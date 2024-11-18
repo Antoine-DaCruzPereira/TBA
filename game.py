@@ -34,13 +34,13 @@ class Game:
         self.rooms.append(Prypiat)
         Route = Room("Route", "C'est la route sinistre, abandonnée qui relie Prypiat et la centrale de Tchernobyl.")
         self.rooms.append(Route)
-        Périmètre_La_Centrale = Room("Périmètre de la centrale", "Périmètre d'exclusion radioactif autour de Tchernobyl, des pokemons corrompus par la radioactivitée dû à l'explosion ☢.")
+        Périmètre_La_Centrale = Room("Périmètre de la centrale", "Périmètre d'exclusion radioactif autour de Tchernobyl, Des pokemons corrompus par la radioactivitée dû à l'explosion sont présent dans toutes la zone ☢.")
         self.rooms.append(Périmètre_La_Centrale)
         Entrée_De_La_Centrale = Room("Entrée de la centrale", "En plein milieu de la zone d'exclusion, apparaît au milieu de la brume, deux grande porte donne accès à la centrale , vous appercevez une figure patrouillant dans la pièce.")
         self.rooms.append(Entrée_De_La_Centrale)
         Couloir_Est = Room("Couloir Est", "Couloir lugubre, avec des lumières clignotante, qui relie l'entrée, Salle des Machines 1, Salle du Personnels, Salle de Controle du réacteur n°1.")
         self.rooms.append(Couloir_Est)
-        Couloir_Ouest = Room("Couloir Ouest", "Couloir lugubre, avec des lumières clignotante, qui relie l'entrée; Salles des Machines 1, Salle de Controle du réacteur n°2.")
+        Couloir_Ouest = Room("Couloir Ouest", "Couloir lugubre, avec des lumières clignotante, qui relie l'entrée; Salles des Machines 2, Salle de Controle du réacteur n°2.")
         self.rooms.append(Couloir_Ouest)
         Salle_De_Controle_1 = Room("Salle de controle du Réacteur n°1","Salle de controle qui servait à piloter le réacteur n°1 avant la catastrophe.")
         self.rooms.append(Salle_De_Controle_1)
@@ -67,8 +67,8 @@ class Game:
         Entrée_De_La_Centrale.exits = {"N" : None, "E" : Couloir_Est, "S" : None, "O" : Couloir_Ouest,"U":Réacteur_4, "D":None}
         Couloir_Est.exits = {"N" : Salle_De_Controle_1, "E" : Salle_Du_Personnel, "S" : Salle_Des_Machines_1, "O" : Entrée_De_La_Centrale}
         Couloir_Ouest.exits = {"N" : Salle_De_Controle_2, "E" : Entrée_De_La_Centrale, "S" : Salle_De_Controle_2, "O" : None}
-        Salle_De_Controle_1.exits={"N" : Réacteur_1, "E" : None, "S" : Couloir_Ouest ,"O" : None, "U":None, "D":None}
-        Salle_De_Controle_2.exits={"N" : Réacteur_2, "E" : None, "S" : Couloir_Est ,"O" : None, "U":None, "D":None}
+        Salle_De_Controle_1.exits={"N" : Réacteur_1, "E" : None, "S" : Couloir_Est,"O" : None, "U":None, "D":None}
+        Salle_De_Controle_2.exits={"N" : Réacteur_2, "E" : None, "S" : Couloir_Ouest ,"O" : None, "U":None, "D":None}
         Salle_Du_Personnel.exits = {"N" : None, "E" : None, "S" : None, "O" : Couloir_Est, "U":None, "D":None}
         Réacteur_1.exits = {"N" : None, "E" : None, "S" : Salle_De_Controle_1, "O" : None, "U":None, "D":None}
         Réacteur_2.exits = {"N" : None, "E" : None, "S" : Salle_De_Controle_2, "O" : None, "U":Réacteur_4, "D":None}
