@@ -30,9 +30,9 @@ class Game:
         
         # Setup rooms
 
-        forest = Room("Forest", "dans une forêt enchantée. Vous entendez une brise légère à travers la cime des arbres.")
-        self.rooms.append(forest)
-        tower = Room("Tower", "dans une immense tour en pierre qui s'élève au dessus des nuages.")
+        Prypiat = Room("Prypiat", "Dans la ville de Prypiat, c'est la ville de départ de votre aventure, située aux abords de la zone d'exclusion de Tchernobyl.")
+        self.rooms.append(Prypiat)
+        Route = Room("Route", ".")
         self.rooms.append(tower)
         cave = Room("Cave", "dans une grotte profonde et sombre. Des voix semblent provenir des profondeurs.")
         self.rooms.append(cave)
@@ -45,7 +45,7 @@ class Game:
 
         # Create exits for rooms
 
-        forest.exits = {"N" : cave, "E" : tower, "S" : castle, "O" : None}
+        Prypiat.exits = {"N" : cave, "E" : tower, "S" : castle, "O" : None}
         tower.exits = {"N" : cottage, "E" : None, "S" : swamp, "O" : forest}
         cave.exits = {"N" : None, "E" : cottage, "S" : forest, "O" : None}
         cottage.exits = {"N" : None, "E" : None, "S" : tower, "O" : cave}
