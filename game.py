@@ -66,7 +66,7 @@ class Game:
         Périmètre_La_Centrale.exits = {"N" : Entrée_De_La_Centrale, "E" : None, "S" : None, "O" : None,"U":None, "D":None}
         Entrée_De_La_Centrale.exits = {"N" : None, "E" : Couloir_Est, "S" : None, "O" : Couloir_Ouest,"U":Réacteur_4, "D":None}
         Couloir_Est.exits = {"N" : Salle_De_Controle_1, "E" : Salle_Du_Personnel, "S" : Salle_Des_Machines_1, "O" : Entrée_De_La_Centrale}
-        Couloir_Ouest.exits = {"N" : Salle_De_Controle_2, "E" : Entrée_De_La_Centrale, "S" : Salle_De_Controle_2, "O" : None}
+        Couloir_Ouest.exits = {"N" : Salle_De_Controle_2, "E" : Entrée_De_La_Centrale, "S" : Salle_Des_Machines_2, "O" : None}
         Salle_De_Controle_1.exits={"N" : Réacteur_1, "E" : None, "S" : Couloir_Est,"O" : None, "U":None, "D":None}
         Salle_De_Controle_2.exits={"N" : Réacteur_2, "E" : None, "S" : Couloir_Ouest ,"O" : None, "U":None, "D":None}
         Salle_Du_Personnel.exits = {"N" : None, "E" : None, "S" : None, "O" : Couloir_Est, "U":None, "D":None}

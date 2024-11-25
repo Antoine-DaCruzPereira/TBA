@@ -161,3 +161,21 @@ class Actions:
             print("\t- " + str(command))
         print()
         return True
+    
+    def history(game, list_of_words, number_of_parameters):
+        if number_of_parameters == 0:
+            return(game.player.get_history())
+        else:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+    
+    def back(game, list_of_words, number_of_parameters):
+        if len(game.player.history) != 0:
+            game.player.current_room = game.player.history.pop()
+            print(game.player.current_room.get_long_description())
+            game.player.get_history()
+            return True
+        else:
+            print("\nImpossible de revenir en arrière, aucun déplacement enregistré.")
+            return False
