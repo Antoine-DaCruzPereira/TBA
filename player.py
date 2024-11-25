@@ -2,10 +2,10 @@
 class Player():
 
     # Define the constructor.
-    def __init__(self, name,description):
+    def __init__(self, name):
         self.name = name
-        self.description = description
         self.current_room = None
+        self.history = []
     
     # Define the move method.
     def move(self, direction):
@@ -27,7 +27,7 @@ class Player():
     def get_history(self):
         if len(self.history) != 0:
             for history in self.history:
-                print("     - ",history.description)
+                print("     - ",history.name)
             return True
         else:
             print("\nAucun historique disponible.")
