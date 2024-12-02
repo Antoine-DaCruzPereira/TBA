@@ -6,6 +6,7 @@ from room import Room
 from player import Player
 from command import Command
 from actions import Actions
+from item import item
 
 class Game:
 
@@ -31,6 +32,10 @@ class Game:
         self.commands["back"] = back
         history = Command("history", " : Affiche l'historique du chemin empreinté", Actions.history, 0)
         self.commands["history"] = history
+        look = Command("look", " : Affiche les items dans la salle.", Actions.look, 0)
+        self.commands["look"] = look
+        take = Command("take", "Prend un objet dans la salle", Actions.take, 1)
+        self.commands["take"] = take
         
         # Setup rooms
 
@@ -38,7 +43,7 @@ class Game:
         self.rooms.append(Prypiat)
         Route = Room("Route", "C'est la route sinistre, abandonnée qui relie Prypiat et la centrale de Tchernobyl.")
         self.rooms.append(Route)
-        Périmètre_La_Centrale = Room("Périmètre de la centrale", "Périmètre d'exclusion radioactif autour de Tchernobyl, Des pokemons corrompus par la radioactivitée dû à l'explosion sont présent dans toutes la zone ☢.")
+        Périmètre_La_Centrale = Room("Périmètre de la centrale", "Périmètre d'exclusion radioactif autour de Tchernobyl, Des pokemons corrompus par la radioactivitée dû à l'explosion sont présent dans toutes la zone ☢.",)
         self.rooms.append(Périmètre_La_Centrale)
         Entrée_De_La_Centrale = Room("Entrée de la centrale", "En plein milieu de la zone d'exclusion, apparaît au milieu de la brume, deux grande porte donne accès à la centrale , vous appercevez une figure patrouillant dans la pièce.")
         self.rooms.append(Entrée_De_La_Centrale)
@@ -84,6 +89,25 @@ class Game:
         # Setup player and starting room
         self.player = Player(input("\nEntrez votre nom: "))
         self.player.current_room = Prypiat
+
+        # Setup Item
+
+        Combinaison_Hazmat = item("Combinaison Hazmat", "Une combinaison qui permet de vous protéger des radiations présentes dans la centrale, sans elle vous mourrez des radiations instantanément.",6.6) 
+        Carte_accès_LvL_1 = item("Carte d'accès LvL 1", "Cette carte d’accès vous permet d’accéder aux salles de contrôles 1 et 2.",0.01)
+        Carte_accès_LvL_2 = item("Carte d'accès LvL 2", "Cette carte d’accès vous permet d’accéder aux réacteurs 1 et 2.",0.01)
+        Pierre_Radioactive = item("Pierre Radioactive", "Permet de faire évoluer votre évoli en Nucléon.",0.216)
+        Pierre_Feu = item("Pierre Feu","Permet de faire évoluer votre évoli en Pyroli.",0.216)
+        Pierre_Eau = item("Pierre Eau","Permet de faire évoluer votre évoli en Aquali.",0.216)
+        Pierre_Foudre = item("Pierre Foudre","Permet de faire évoluer votre évoli en Voltali.",0.216)
+        Beamer = item("Beamer","Permet de vous téléporter dans la salle dans laquelle il a été chargé au préalable ",5)    
+        
+        Prypiat.inventory = {"Combinaison Hazmat" : Combinaison_Hazmat}
+        Route.inventory = {"Pierre Feu" : Pierre_Feu, "Pierre_Eau" :Pierre_Eau}
+        Salle_Des_Machines_1.inventory = {"Pierre Foudre": Pierre_Foudre}
+        Salle_Des_Machines_2.inventory = {"Pierre Radioactive" : Pierre_Radioactive}
+        Réacteur_4.inventory = {"Beamer" : Beamer}
+        Salle_Du_Personnel.inventory = {"Carte accès LvL 2" : Carte_accès_LvL_2}
+        Entrée_De_La_Centrale.inventory = {"Carte accès LvL 1" : Carte_accès_LvL_1}
 
     # Play the game
     def play(self):

@@ -6,6 +6,7 @@ class Player():
         self.name = name
         self.current_room = None
         self.history = []
+        self.inventory = dict()
     
     # Define the move method.
     def move(self, direction):
@@ -26,9 +27,20 @@ class Player():
 
     def get_history(self):
         if len(self.history) != 0:
-            for history in self.history:
-                print("     - ",history.name)
+            for room in self.history:
+                print("     - ",room.name)
             return True
         else:
             print("\nAucun historique disponible.")
             return False
+        
+    def get_inventory(self):
+        if len(self.inventory) != 0:
+            for item in self.inventory:
+                print("     - ",item.name)
+            return True
+        else:
+            print("\nVotre inventaire est vide.")
+            return False
+        
+    

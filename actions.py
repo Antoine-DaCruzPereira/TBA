@@ -16,8 +16,8 @@ MSG0 = "\nLa commande '{command_word}' ne prend pas de paramètre.\n"
 # The MSG1 variable is used when the command takes 1 parameter.
 MSG1 = "\nLa commande '{command_word}' prend 1 seul paramètre.\n"
 
-CARAC_SUP ="nseoud"
-CARAC_REPLACE = "NSEOUD"
+CARAC_SUP ="nseoudrtpw"
+CARAC_REPLACE = "NSEOUDRTPW"
 
 
 class Actions:
@@ -65,19 +65,43 @@ class Actions:
         if direction == "N":
             player.move(direction)
             return True
+        elif direction == "NORD":
+            direction = "N"
+            player.move(direction)
+            return True
         elif direction == "S":
+            player.move(direction)
+            return True
+        elif direction == "SUD":
+            direction = "S"
             player.move(direction)
             return True
         elif direction == "E":
             player.move(direction)
             return True
+        elif direction == "EST":
+            direction = "E"
+            player.move(direction)
+            return True
         elif direction == "O":
+            player.move(direction)
+            return True
+        elif direction == "OUEST":
+            direction = "O"
             player.move(direction)
             return True
         elif direction == "U":
             player.move(direction)
             return True
+        elif direction == "UP":
+            direction = "U"
+            player.move(direction)
+            return True
         elif direction == "D":
+            player.move(direction)
+            return True
+        elif direction == "DOWN":
+            direction = "D"
             player.move(direction)
             return True
         else:
@@ -178,4 +202,30 @@ class Actions:
             return True
         else:
             print("\nImpossible de revenir en arrière, aucun déplacement enregistré.")
+            return False
+        
+
+    def look(game, list_of_words, number_of_parameters):
+        if number_of_parameters == 0:
+            return(game.player.current_room.get_inventory())
+        else:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+    
+    def take(game, list_of_words, number_of_parameters):
+        if number_of_parameters == 1:
+            item = list_of_words[0]
+            inventory = game.player.current_room.inventory
+            if item in inventory:
+                game.player.inventory.add(item)
+                inventory.remove(item)
+                print(f"\nVous avez pris {item}.")
+                return True
+            else:
+                print("\nCet item n'est pas dans la salle.")
+                return False
+        else:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
             return False
