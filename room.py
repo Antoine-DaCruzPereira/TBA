@@ -35,7 +35,7 @@ class Room:
     def get_inventory(self):
         if len(self.inventory) != 0:
             for item in self.inventory:
-                print("     - ",item.name)
+                print("     - ",self.inventory.get(item).name)
             return True
         else:
             print("\nIl n'y a rien ici.")

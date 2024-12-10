@@ -7,6 +7,7 @@ from player import Player
 from command import Command
 from actions import Actions
 from item import item
+from beamer import Beamer
 
 class Game:
 
@@ -36,6 +37,14 @@ class Game:
         self.commands["look"] = look
         take = Command("take", "Prend un objet dans la salle", Actions.take, 1)
         self.commands["take"] = take
+        drop = Command("drop", "Pose un objet dans la salle", Actions.drop, 1)
+        self.commands["drop"] = drop
+        check = Command("check", " : Affiche les items dans la salle.", Actions.check, 0)
+        self.commands["check"] = check
+        charge = Command("charge", " : Charge la zone dans l'historique du beamer.", Actions.charge, 1)
+        self.commands["charge"] = charge
+        use = Command("use", " : Permet de voyager dans la zone sauvegardé par le beamer.", Actions.use, 1)
+        self.commands["use"] = use
         
         # Setup rooms
 
@@ -101,13 +110,13 @@ class Game:
         Pierre_Foudre = item("Pierre Foudre","Permet de faire évoluer votre évoli en Voltali.",0.216)
         Beamer = item("Beamer","Permet de vous téléporter dans la salle dans laquelle il a été chargé au préalable ",5)    
         
-        Prypiat.inventory = {"Combinaison Hazmat" : Combinaison_Hazmat}
-        Route.inventory = {"Pierre Feu" : Pierre_Feu, "Pierre_Eau" :Pierre_Eau}
-        Salle_Des_Machines_1.inventory = {"Pierre Foudre": Pierre_Foudre}
-        Salle_Des_Machines_2.inventory = {"Pierre Radioactive" : Pierre_Radioactive}
+        Prypiat.inventory = {"Combinaison_Hazmat" : Combinaison_Hazmat}
+        Route.inventory = {"Pierre_Feu" : Pierre_Feu, "Pierre_Eau" :Pierre_Eau}
+        Salle_Des_Machines_1.inventory = {"Pierre_Foudre": Pierre_Foudre}
+        Salle_Des_Machines_2.inventory = {"Pierre_Radioactive" : Pierre_Radioactive}
         Réacteur_4.inventory = {"Beamer" : Beamer}
-        Salle_Du_Personnel.inventory = {"Carte accès LvL 2" : Carte_accès_LvL_2}
-        Entrée_De_La_Centrale.inventory = {"Carte accès LvL 1" : Carte_accès_LvL_1}
+        Salle_Du_Personnel.inventory = {"Carte_accès_LvL_2" : Carte_accès_LvL_2}
+        Entrée_De_La_Centrale.inventory = {"Carte_accès_LvL_1" : Carte_accès_LvL_1}
 
     # Play the game
     def play(self):

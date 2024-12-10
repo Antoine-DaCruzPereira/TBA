@@ -215,15 +215,76 @@ class Actions:
     
     def take(game, list_of_words, number_of_parameters):
         if number_of_parameters == 1:
-            item = list_of_words[0]
+            item = list_of_words[1]
             inventory = game.player.current_room.inventory
             if item in inventory:
-                game.player.inventory.add(item)
-                inventory.remove(item)
+                game.player.inventory[item] = inventory[item]
+                del inventory[item]
                 print(f"\nVous avez pris {item}.")
                 return True
             else:
                 print("\nCet item n'est pas dans la salle.")
+                return False
+        else:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        
+    def drop(game, list_of_words, number_of_parameters):
+        if number_of_parameters == 1:
+            item = list_of_words[1]
+            inventory = game.player.inventory
+            if item in inventory:
+                game.player.current_room.inventory[item] = inventory[item]
+                del inventory[item]
+                print(f"\nVous avez posé {item}.")
+                return True
+            else:
+                print("\nCet item n'est pas dans votre inventaire.")
+                return False
+        else:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        
+    def check(game, list_of_words, number_of_parameters):
+        if number_of_parameters == 0:
+            return(game.player.get_inventory())
+        else:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        
+    def use(game, list_of_words, number_of_parameters):
+        item = list_of_words[1]
+        if number_of_parameters == 1:
+            if item in game.player.inventory:
+                if item == "Beamer":
+                    item_name = game.player.inventory.get(item)
+                    return(item_name.use(game))
+                else:
+                    print("\nCet item ne peut pas charger.")
+                    return False
+            else:
+                print("\nCet item n'est pas dans l'inventaire.")
+                return False
+        else:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        
+    def charge(game, list_of_words, number_of_parameters):
+        item = list_of_words[1]
+        if number_of_parameters == 1:
+            if item in game.player.inventory:
+                if item == "Beamer":
+                    item_name = game.player.inventory.get(item)
+                    return(item_name.charge(game.player.current_room))
+                else:
+                    print("\nCet item ne peut pas charger.")
+                    return False
+            else:
+                print("\nCet item n'est pas dans l'inventaire.")
                 return False
         else:
             command_word = list_of_words[0]
