@@ -260,8 +260,7 @@ class Actions:
         if number_of_parameters == 1:
             if item in game.player.inventory:
                 if item == "Beamer":
-                    item_name = game.player.inventory.get(item)
-                    return(item_name.use(game))
+                    return(game.Beamer.use(game))
                 else:
                     print("\nCet item ne peut pas charger.")
                     return False
@@ -278,8 +277,7 @@ class Actions:
         if number_of_parameters == 1:
             if item in game.player.inventory:
                 if item == "Beamer":
-                    item_name = game.player.inventory.get(item)
-                    return(item_name.charge(game.player.current_room))
+                    return(game.Beamer.charge(game))
                 else:
                     print("\nCet item ne peut pas charger.")
                     return False

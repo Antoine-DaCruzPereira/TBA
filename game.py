@@ -17,6 +17,7 @@ class Game:
         self.rooms = []
         self.commands = {}
         self.player = None
+        self.Beamer = Beamer
     
     # Setup the game
     def setup(self):
@@ -98,6 +99,7 @@ class Game:
         # Setup player and starting room
         self.player = Player(input("\nEntrez votre nom: "))
         self.player.current_room = Prypiat
+
 
         # Setup Item
 
