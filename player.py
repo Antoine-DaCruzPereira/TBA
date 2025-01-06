@@ -7,6 +7,7 @@ class Player():
         self.current_room = None
         self.history = []
         self.inventory = dict()
+        self.team = []
     
     # Define the move method.
     def move(self, direction):
@@ -43,4 +44,21 @@ class Player():
             print("\nVotre inventaire est vide.")
             return False
         
-    
+    def add_pokemon(self, pokemon):
+        if len(self.team) < 6:
+            self.team.append(pokemon)
+        else:
+            print(f"L'équipe de {self.name} est pleine (6 maximum).")
+
+    def has_available_pokemon(self):
+        return any(not p.is_fainted() for p in self.team)
+
+    def choose_next_pokemon(self):
+        for pokemon in self.team:
+            if not pokemon.is_fainted():
+                return pokemon
+        return None
+
+    def __str__(self):
+        team_info = "\n".join([f"{idx + 1}. {p}" for idx, p in enumerate(self.team)])
+        return f"Équipe de {self.name} :\n{team_info}"
