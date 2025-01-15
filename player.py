@@ -2,9 +2,9 @@
 class Player():
 
     # Define the constructor.
-    def __init__(self, name):
+    def __init__(self, name, current_room = None):
         self.name = name
-        self.current_room = None
+        self.current_room = current_room
         self.history = []
         self.inventory = dict()
         self.team = []
@@ -44,12 +44,6 @@ class Player():
             print("\nVotre inventaire est vide.")
             return False
         
-    def add_pokemon(self, pokemon):
-        if len(self.team) < 6:
-            self.team.append(pokemon)
-        else:
-            print(f"L'équipe de {self.name} est pleine (6 maximum).")
-
     def has_available_pokemon(self):
         return any(not p.is_fainted() for p in self.team)
 
@@ -58,6 +52,12 @@ class Player():
             if not pokemon.is_fainted():
                 return pokemon
         return None
+
+    def add_pokemon(self, pokemon):
+        if len(self.team) < 6:
+            self.team.append(pokemon)
+        else:
+            print("Votre équipe est déjà pleine !")
 
     def __str__(self):
         team_info = "\n".join([f"{idx + 1}. {p}" for idx, p in enumerate(self.team)])

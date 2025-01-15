@@ -1,6 +1,6 @@
 #combat
 import math
-
+import random
 
 class Combat:
     def __init__(self, trainer1, trainer2):
@@ -8,12 +8,10 @@ class Combat:
         self.trainer2 = trainer2
 
     def calculate_damage(self, attacker, defender, move_power):
-        
         damage = ((move_power * (attacker.attack / defender.defense)) / 50) + 2
         return math.floor(damage)
 
     def turn(self, attacker, defender):
-        
         move_name, move_power = attacker.choose_move()
         print(f"{attacker.name} utilise {move_name} !")
 
@@ -27,7 +25,6 @@ class Combat:
         return False
 
     def start_battle(self):
-        
         print(f"\nUn combat commence entre {self.trainer1.name} et {self.trainer2.name} !")
 
         while self.trainer1.has_available_pokemon() and self.trainer2.has_available_pokemon():
@@ -37,25 +34,19 @@ class Combat:
             print(f"\n{self.trainer1.name} envoie {pokemon1.name} !")
             print(f"{self.trainer2.name} envoie {pokemon2.name} !")
 
-            
             while not pokemon1.is_fainted() and not pokemon2.is_fainted():
-                
                 if pokemon1.speed >= pokemon2.speed:
                     first, second = pokemon1, pokemon2
                 else:
                     first, second = pokemon2, pokemon1
 
-                
                 if self.turn(first, second):
                     break
-
-                
                 if self.turn(second, first):
                     break
 
             print("\n---")
 
-        
         if self.trainer1.has_available_pokemon():
             print(f"{self.trainer1.name} remporte le combat !")
         else:

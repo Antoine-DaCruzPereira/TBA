@@ -1,3 +1,5 @@
+import random
+from config import DEBUG
 # Description: The actions module.
 
 # The actions module contains the functions that are called when a command is executed.
@@ -106,6 +108,7 @@ class Actions:
             return True
         else:
             print("\nLa Direction n'est pas valide!\n")
+            
 
     def quit(game, list_of_words, number_of_parameters):
         """
@@ -204,10 +207,13 @@ class Actions:
             print("\nImpossible de revenir en arrière, aucun déplacement enregistré.")
             return False
         
-
     def look(game, list_of_words, number_of_parameters):
         if number_of_parameters == 0:
-            return(game.player.current_room.get_inventory())
+            print("\n--- Contenu de la pièce ---")
+            game.player.current_room.get_inventory()
+            game.player.current_room.get_people()
+            #return(game.player.current_room.get_inventory())
+            return True
         else:
             command_word = list_of_words[0]
             print(MSG0.format(command_word=command_word))
@@ -287,4 +293,40 @@ class Actions:
         else:
             command_word = list_of_words[0]
             print(MSG0.format(command_word=command_word))
+            return False
+        
+    def talk(game, list_of_words, number_of_parameters):
+        if len(list_of_words) < 2:
+            print("\nUsage : talk <someone>")
+            return False
+        
+        if number_of_parameters == 1:
+            target_name = list_of_words[1]
+            if DEBUG:
+                print(f"DEBUG: Cible de la commande talk -> {target_name}")
+
+            if target_name in game.player.current_room.people:
+                NPC = game.player.current_room.people[target_name]
+                NPC.get_msg()
+                return True
+            else:
+                print(f"\nIl n'y a personne nommé {target_name} ici.")
+                return False
+        else:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+            
+    def battle(game, list_of_words, number_of_parameters):
+        if len(list_of_words) < 2:
+            print("\nUsage : battle <someone>")
+            return False
+
+        target_name = list_of_words[1]
+        if target_name in game.player.current_room.people:
+            npc = game.player.current_room.people[target_name]
+            npc.initiate_battle(game.player)
+            return True
+        else:
+            print(f"\nIl n'y a personne nommé {target_name} ici.")
             return False

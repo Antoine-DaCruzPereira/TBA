@@ -8,6 +8,8 @@ from command import Command
 from actions import Actions
 from item import item
 from beamer import Beamer
+from character import Character
+from config import DEBUG
 
 class Game:
 
@@ -40,12 +42,16 @@ class Game:
         self.commands["take"] = take
         drop = Command("drop", "Pose un objet dans la salle", Actions.drop, 1)
         self.commands["drop"] = drop
-        check = Command("check", " : Affiche les items dans la salle.", Actions.check, 0)
+        check = Command("check", " : Affiche les items dans l'inventaire.", Actions.check, 0)
         self.commands["check"] = check
         charge = Command("charge", " : Charge la zone dans l'historique du beamer.", Actions.charge, 1)
         self.commands["charge"] = charge
         use = Command("use", " : Permet de voyager dans la zone sauvegardé par le beamer.", Actions.use, 1)
         self.commands["use"] = use
+        talk = Command("talk", " : parler à un personnage", Actions.talk, 1)
+        self.commands["talk"] = talk
+        battle = Command("battle", " : combattre un personnage", Actions.battle, 1)
+        self.commands["battle"] = battle
         
         # Setup rooms
 
@@ -53,7 +59,7 @@ class Game:
         self.rooms.append(Prypiat)
         Route = Room("Route", "C'est la route sinistre, abandonnée qui relie Prypiat et la centrale de Tchernobyl.")
         self.rooms.append(Route)
-        Périmètre_La_Centrale = Room("Périmètre de la centrale", "Périmètre d'exclusion radioactif autour de Tchernobyl, Des pokemons corrompus par la radioactivitée dû à l'explosion sont présent dans toutes la zone ☢.",)
+        Périmètre_La_Centrale = Room("Périmètre de la centrale", "Périmètre d'exclusion radioactif autour de Tchernobyl, Des pokemons corrompus par la radioactivitée dû à l'explosion rodent dans toutes la zone ☢.",)
         self.rooms.append(Périmètre_La_Centrale)
         Entrée_De_La_Centrale = Room("Entrée de la centrale", "En plein milieu de la zone d'exclusion, apparaît au milieu de la brume, deux grande porte donne accès à la centrale , vous appercevez une figure patrouillant dans la pièce.")
         self.rooms.append(Entrée_De_La_Centrale)
@@ -120,6 +126,25 @@ class Game:
         Salle_Du_Personnel.inventory = {"Carte_accès_LvL_2" : Carte_accès_LvL_2}
         Entrée_De_La_Centrale.inventory = {"Carte_accès_LvL_1" : Carte_accès_LvL_1}
 
+        #Setup PNJ
+    
+        Urayne=Character("Urayne",
+                         " Un Pokémon légendaire né lors d'une catastrophe nucléaire. Il doit consommer des matières radioactives pour fonctionner. Sans elles, il entrera dans un état de dormance", ["UUUUUUURRRRRRRRAAAAAYYYYYYNNNNNNEEEEEE"],Réacteur_4,True)
+        Curie=Character("Curie","Une dresseuse qui est stationnée à l'entrée de la centrale, elle vous provoque en combat dès que vous entré dans la centrale. Vous devez la battre pour pouvoir avancer dans la centrale", ["Hé que faite vous ici! Je vais vous faire déguèrpire d'ici toute de suite !!!"],Entrée_De_La_Centrale)
+        
+        
+        Réacteur_4.people[Urayne.name] = Urayne
+        Entrée_De_La_Centrale.people[Curie.name] = Curie
+
+        if DEBUG:
+            print(f"DEBUG: {Urayne.name} ajouté à {Urayne.current_room.name}.")
+            print(f"DEBUG: {Curie.name} ajouté à {Curie.current_room.name}.")
+
+        if DEBUG:
+            for room in self.rooms:
+                print(f"DEBUG: Contenu de la pièce {room.name} :")
+                room.get_people()
+
     # Play the game
     def play(self):
         self.setup()
@@ -129,6 +154,22 @@ class Game:
             # Get the command from the player
             self.process_command(input("> "))
         return None
+
+    def moveNPC(self):
+        if DEBUG:
+            print("DEBUG: Début de moveNPC.")
+    
+        for room in self.rooms:
+            if DEBUG:
+                print(f"DEBUG: Pièce actuelle -> {room.name}, PNJs présents -> {list(room.people.keys())}")
+            pnjs = list(room.people.values())
+
+            for character in pnjs:
+                if DEBUG:
+                    print(f"DEBUG: Tentative de déplacement pour {character.name}.")
+                character.move()
+        if DEBUG:
+            print("DEBUG: Fin de moveNPC.")
 
     # Process the command entered by the player
     def process_command(self, command_string) -> None:
@@ -146,6 +187,7 @@ class Game:
             else:
                 command = self.commands[command_word]
                 command.action(self, list_of_words, command.number_of_parameters)
+                self.moveNPC()
 
     # Print the welcome message
     def print_welcome(self):

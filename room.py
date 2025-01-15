@@ -8,6 +8,7 @@ class Room:
         self.description = description
         self.inventory = dict()
         self.exits = {}
+        self.people = {}
     
     # Define the get_exit method.
     def get_exit(self, direction):
@@ -37,6 +38,19 @@ class Room:
             for item in self.inventory:
                 print("     - ",self.inventory.get(item).name)
             return True
+        elif len(self.people) != 0:
+            for name, item in self.people.items():
+                print(f"    -{item}")
         else:
             print("\nIl n'y a rien ici.")
+            return False
+        
+    def get_people(self):
+        if len(self.people) > 0:
+            print(f"Personnages présents dans {self.name} :")
+            for person_name, person in self.people.items():
+                print(f"  - {person_name}: {person.description}")
+            return True
+        else:
+            print(f"Aucun personnage dans {self.name}.")
             return False
