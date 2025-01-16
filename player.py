@@ -62,3 +62,4 @@ class Player():
     def __str__(self):
         team_info = "\n".join([f"{idx + 1}. {p}" for idx, p in enumerate(self.team)])
         return f"Équipe de {self.name} :\n{team_info}"
+    

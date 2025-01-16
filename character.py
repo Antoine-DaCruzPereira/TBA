@@ -11,6 +11,7 @@ class Character(Player):
         self.description = description
         self.msgs = msgs
         self.can_move = can_move
+        self.team = []
 
     def __str__(self):
         return f"{self.name} : {self.description}"
@@ -50,7 +51,13 @@ class Character(Player):
         print(f"{self.name} dit : \"{msg}\"")
         self.msgs.append(msg)
 
-    def initiate_battle(self, player):
+    def initiate_battle(self, player, game):
+        if not self.has_available_pokemon():
+            print(f"{self.name} n'a plus de Pokémon en état de se battre. Le combat ne peut pas commencer.")
+            return None
+         
+        self.get_msg()
+
         print(f"\n{self.name} vous défie en combat Pokémon !")
-        battle = Combat(player, self)
+        battle = Combat(player, self, game)
         battle.start_battle()

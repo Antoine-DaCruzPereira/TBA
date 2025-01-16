@@ -1,7 +1,7 @@
 # Description: Game class
 
 # Import modules
-
+import json
 from room import Room
 from player import Player
 from command import Command
@@ -10,6 +10,9 @@ from item import item
 from beamer import Beamer
 from character import Character
 from config import DEBUG
+from pokemon import Pokemon
+from combat import Combat
+from capacite import Capacite
 
 class Game:
 
@@ -20,7 +23,7 @@ class Game:
         self.commands = {}
         self.player = None
         self.Beamer = Beamer
-    
+
     # Setup the game
     def setup(self):
 
@@ -106,6 +109,18 @@ class Game:
         self.player = Player(input("\nEntrez votre nom: "))
         self.player.current_room = Prypiat
 
+        all_pokemon = load_pokemon_from_json("pokemon.json")
+
+        print("Choisissez votre Pokémon de départ :")
+        for idx, pkm in enumerate(all_pokemon[1:4]):  
+            print(f"{idx + 1}. {pkm.name} ({pkm.type1}/{pkm.type2})")
+
+        choice = int(input("Entrez le numéro de votre choix : "))
+        starter_pokemon = all_pokemon[choice]
+        print(f"\nVous avez choisi {starter_pokemon.name} !")
+
+        self.player.add_pokemon(starter_pokemon)
+
 
         # Setup Item
 
@@ -128,22 +143,24 @@ class Game:
 
         #Setup PNJ
     
-        Urayne=Character("Urayne",
-                         " Un Pokémon légendaire né lors d'une catastrophe nucléaire. Il doit consommer des matières radioactives pour fonctionner. Sans elles, il entrera dans un état de dormance", ["UUUUUUURRRRRRRRAAAAAYYYYYYNNNNNNEEEEEE"],Réacteur_4,True)
-        Curie=Character("Curie","Une dresseuse qui est stationnée à l'entrée de la centrale, elle vous provoque en combat dès que vous entré dans la centrale. Vous devez la battre pour pouvoir avancer dans la centrale", ["Hé que faite vous ici! Je vais vous faire déguèrpire d'ici toute de suite !!!"],Entrée_De_La_Centrale)
-        
-        
-        Réacteur_4.people[Urayne.name] = Urayne
+        Urayne_NPC = Character("Urayne", "Un Pokémon légendaire né lors d'une catastrophe nucléaire. Il doit consommer des matières radioactives pour fonctionner. Sans elles, il entrera dans un état de dormance", ["UUUUUUURRRRRRRRAAAAAYYYYYYNNNNNNEEEEEE"], Réacteur_4)
+        Curie = Character("Curie", "Une dresseuse qui est stationnée à l'entrée de la centrale, elle vous provoque en combat dès que vous entré dans la centrale. Vous devez la battre pour pouvoir avancer dans la centrale", ["Hé que faite vous ici! Je vais vous faire déguèrpire d'ici toute de suite !!!"], Entrée_De_La_Centrale)
+
+        Réacteur_4.people[Urayne_NPC.name] = Urayne_NPC
         Entrée_De_La_Centrale.people[Curie.name] = Curie
 
+        Urayne_NPC.add_pokemon(all_pokemon[9])
+        Curie.add_pokemon(all_pokemon[0])
+
         if DEBUG:
-            print(f"DEBUG: {Urayne.name} ajouté à {Urayne.current_room.name}.")
+            print(f"DEBUG: {Urayne_NPC.name} ajouté à {Urayne_NPC.current_room.name}.")
             print(f"DEBUG: {Curie.name} ajouté à {Curie.current_room.name}.")
 
         if DEBUG:
             for room in self.rooms:
                 print(f"DEBUG: Contenu de la pièce {room.name} :")
                 room.get_people()
+
 
     # Play the game
     def play(self):
@@ -153,8 +170,10 @@ class Game:
         while not self.finished:
             # Get the command from the player
             self.process_command(input("> "))
-        return None
 
+        return None
+    
+    
     def moveNPC(self):
         if DEBUG:
             print("DEBUG: Début de moveNPC.")
@@ -188,6 +207,10 @@ class Game:
                 command = self.commands[command_word]
                 command.action(self, list_of_words, command.number_of_parameters)
                 self.moveNPC()
+                current_room = self.player.current_room
+                for pnj in current_room.people.values():
+                    if isinstance(pnj, Character):
+                        pnj.initiate_battle(self.player,self)
 
     # Print the welcome message
     def print_welcome(self):
@@ -196,6 +219,30 @@ class Game:
         #
         print(self.player.current_room.get_long_description())
     
+def load_pokemon_from_json(json_file):
+    with open(json_file, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+
+    pokemon_list = []
+    for entry in data:
+        capacites = [
+            Capacite(name=cap["name"], power=cap["power"], type=cap["type"])
+            for cap in entry.get("capacites", [])
+        ]
+        pokemon = Pokemon(
+            name=entry["name"],
+            type1=entry["type1"],
+            type2=entry["type2"],
+            stats=entry["stats"],
+            describe=entry["describe"],
+            #pv=entry["stats"]["pv"],
+            #attack=entry["stats"]["attaque"],
+            #defense=entry["stats"]["defense"],
+            #speed=entry["stats"]["vitesse"],
+            capacites=capacites
+        )
+        pokemon_list.append(pokemon)
+    return pokemon_list
 
 def main():
     # Create a game object and play the game

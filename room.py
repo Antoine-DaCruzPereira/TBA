@@ -54,3 +54,11 @@ class Room:
         else:
             print(f"Aucun personnage dans {self.name}.")
             return False
+        
+    def declencher_combat(self, joueur):
+        print(f"{self.pnj.nom} défie {joueur.nom} en combat Pokémon !")
+
+    def entrer(self, joueur):
+        print(f"{joueur.nom} entre dans {self.nom}.")
+        if self.people:
+            self.declencher_combat(joueur)
