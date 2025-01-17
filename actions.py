@@ -1,4 +1,5 @@
 import random
+from room import Room
 from config import DEBUG
 # Description: The actions module.
 
@@ -85,10 +86,18 @@ class Actions:
             direction = "E"
             player.move(direction)
             return True
+        elif direction == "EAST":
+            direction = "E"
+            player.move(direction)
+            return True
         elif direction == "O":
             player.move(direction)
             return True
         elif direction == "OUEST":
+            direction = "O"
+            player.move(direction)
+            return True
+        elif direction == "WEST":
             direction = "O"
             player.move(direction)
             return True
@@ -329,4 +338,26 @@ class Actions:
             return True
         else:
             print(f"\nIl n'y a personne nommé {target_name} ici.")
+            return False
+        
+
+    def unlock(game, list_of_words, number_of_parameters):
+        if number_of_parameters == 1:
+            direction = list_of_words[1]
+            table = str.maketrans(CARAC_SUP, CARAC_REPLACE)
+            direction = direction.translate(table)
+            current_room = game.player.current_room
+            next_room = current_room.exits.get(direction)
+
+            if isinstance(next_room, Room) and next_room.locked:
+                for item in game.player.inventory.values():
+                    if next_room.unlock(item):
+                        return True
+                print("Vous n'avez pas la clé appropriée.")
+                return False
+            else:
+                print("Il n'y a pas de porte verrouillée dans cette direction.")
+                return False
+        else:
+            print("Utilisation : unlock <direction>")
             return False

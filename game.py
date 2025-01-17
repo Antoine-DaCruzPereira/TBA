@@ -55,6 +55,9 @@ class Game:
         self.commands["talk"] = talk
         battle = Command("battle", " : combattre un personnage", Actions.battle, 1)
         self.commands["battle"] = battle
+        unlock = Command("unlock", " : dévérouille une porte", Actions.unlock, 1)
+        self.commands["unlock"] = unlock
+
         
         # Setup rooms
 
@@ -62,7 +65,7 @@ class Game:
         self.rooms.append(Prypiat)
         Route = Room("Route", "C'est la route sinistre, abandonnée qui relie Prypiat et la centrale de Tchernobyl.")
         self.rooms.append(Route)
-        Périmètre_La_Centrale = Room("Périmètre de la centrale", "Périmètre d'exclusion radioactif autour de Tchernobyl, Des pokemons corrompus par la radioactivitée dû à l'explosion rodent dans toutes la zone ☢.",)
+        Périmètre_La_Centrale = Room("Périmètre de la centrale", "Périmètre d'exclusion radioactif autour de Tchernobyl, Des pokemons corrompus par la radioactivitée dû à l'explosion rodent dans toutes la zone ☢.",True,"lv0")
         self.rooms.append(Périmètre_La_Centrale)
         Entrée_De_La_Centrale = Room("Entrée de la centrale", "En plein milieu de la zone d'exclusion, apparaît au milieu de la brume, deux grande porte donne accès à la centrale , vous appercevez une figure patrouillant dans la pièce.")
         self.rooms.append(Entrée_De_La_Centrale)
@@ -74,13 +77,13 @@ class Game:
         self.rooms.append(Salle_De_Controle_1)
         Salle_De_Controle_2 = Room("Salle de controle du Réacteur n°2","Salle de controle qui servait à piloter le réacteur n°2 avant la catastrophe.")
         self.rooms.append(Salle_De_Controle_2)
-        Salle_Du_Personnel = Room("Salle du personnel","Salle contenant du matériels servant à la maintenance de la centrale.")
+        Salle_Du_Personnel = Room("Salle du personnel","Salle contenant du matériels servant à la maintenance de la centrale.",True,"lv1")
         self.rooms.append(Salle_Du_Personnel)
         Réacteur_1 = Room("Réacteur n°1","Réacteur de la première tranche, le réacteur est délabré avec des barres de combustible visiblent depuis l'entrée du réacteur, il émet de la radioactivité en permanence depuis le jour de la catastrophe.")
         self.rooms.append(Réacteur_1)
-        Réacteur_2 = Room("Réacteur n°2","Réacteur de la deuxième tranche, le réacteur a subi des dommages à la tuyauterie du premier circuit , il émet de la radioactivité en permanence depuis le jour de la catastrophe.")
+        Réacteur_2 = Room("Réacteur n°2","Réacteur de la deuxième tranche, le réacteur a subi des dommages à la tuyauterie du premier circuit , il émet de la radioactivité en permanence depuis le jour de la catastrophe.",True,"lv2")
         self.rooms.append(Réacteur_2)
-        Réacteur_4 = Room("Réacteur n°4","Réacteur de la quatrième tranche, c'est l'épicentre de la catastrophe, le coeur du réacteur est à ciel ouvert, il émet de la matière radioactive en permanence depuis J=0.")
+        Réacteur_4 = Room("Réacteur n°4","Réacteur de la quatrième tranche, c'est l'épicentre de la catastrophe, le coeur du réacteur est à ciel ouvert, il émet de la matière radioactive en permanence depuis J=0.",True,"lv2")
         self.rooms.append(Réacteur_4)
         Salle_Des_Machines_1 = Room("Salle des machines n°1"," Salle des machines de la première tranche, Elle est reliée par la tuyauterie du deuxième circuit au réacteur n°1, l'immense salle est anormalement silencieuse et radioactive.")
         self.rooms.append(Salle_Des_Machines_1)
@@ -90,7 +93,7 @@ class Game:
         # Create exits for rooms
 
         Prypiat.exits = {"N" : None, "E" : Route, "S" : None, "O" : None, "U":None, "D":None}
-        Route.exits = {"N" : Périmètre_La_Centrale , "E" : None, "S" : None, "O" : None,"U":None, "D":None}
+        Route.exits = {"N" : Périmètre_La_Centrale , "E" : None, "S" : None, "O" : Prypiat,"U":None, "D":None}
         Périmètre_La_Centrale.exits = {"N" : Entrée_De_La_Centrale, "E" : None, "S" : None, "O" : None,"U":None, "D":None}
         Entrée_De_La_Centrale.exits = {"N" : None, "E" : Couloir_Est, "S" : None, "O" : Couloir_Ouest,"U":Réacteur_4, "D":None}
         Couloir_Est.exits = {"N" : Salle_De_Controle_1, "E" : Salle_Du_Personnel, "S" : Salle_Des_Machines_1, "O" : Entrée_De_La_Centrale}
@@ -124,14 +127,14 @@ class Game:
 
         # Setup Item
 
-        Combinaison_Hazmat = item("Combinaison Hazmat", "Une combinaison qui permet de vous protéger des radiations présentes dans la centrale, sans elle vous mourrez des radiations instantanément.",6.6) 
-        Carte_accès_LvL_1 = item("Carte d'accès LvL 1", "Cette carte d’accès vous permet d’accéder aux salles de contrôles 1 et 2.",0.01)
-        Carte_accès_LvL_2 = item("Carte d'accès LvL 2", "Cette carte d’accès vous permet d’accéder aux réacteurs 1 et 2.",0.01)
+        Combinaison_Hazmat = item("Combinaison Hazmat", "Une combinaison qui permet de vous protéger des radiations présentes dans la centrale, sans elle vous mourrez des radiations instantanément.",6.6,"lv0") 
+        Carte_accès_LvL_1 = item("Carte d'accès LvL 1", "Cette carte d’accès vous permet d’accéder aux salles de contrôles 1 et 2.",0.01,"lv1")
+        Carte_accès_LvL_2 = item("Carte d'accès LvL 2", "Cette carte d’accès vous permet d’accéder aux réacteurs 1 et 2.",0.01,"lv2")
         Pierre_Radioactive = item("Pierre Radioactive", "Permet de faire évoluer votre évoli en Nucléon.",0.216)
         Pierre_Feu = item("Pierre Feu","Permet de faire évoluer votre évoli en Pyroli.",0.216)
         Pierre_Eau = item("Pierre Eau","Permet de faire évoluer votre évoli en Aquali.",0.216)
         Pierre_Foudre = item("Pierre Foudre","Permet de faire évoluer votre évoli en Voltali.",0.216)
-        Beamer = item("Beamer","Permet de vous téléporter dans la salle dans laquelle il a été chargé au préalable ",5)    
+        Beamer = item("Beamer","Permet de vous téléporter dans la salle dans laquelle il a été chargé au préalable ",5)   
         
         Prypiat.inventory = {"Combinaison_Hazmat" : Combinaison_Hazmat}
         Route.inventory = {"Pierre_Feu" : Pierre_Feu, "Pierre_Eau" :Pierre_Eau}

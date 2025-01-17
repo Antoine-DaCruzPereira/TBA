@@ -3,9 +3,11 @@
 class Room:
 
     # Define the constructor. 
-    def __init__(self, name, description):
+    def __init__(self, name, description,locked=False, key_id=None):
         self.name = name
         self.description = description
+        self.locked = locked
+        self.key_id = key_id
         self.inventory = dict()
         self.exits = {}
         self.people = {}
@@ -62,3 +64,17 @@ class Room:
         print(f"{joueur.nom} entre dans {self.nom}.")
         if self.people:
             self.declencher_combat(joueur)
+
+    def unlock(self, item):
+
+        if self.locked:
+            if item.is_key() and item.key_id == self.key_id:
+                self.locked = False
+                print(f"La pièce {self.name} a été déverrouillée avec {item.name} !")
+                return True
+            else:
+                print(f"{item.name} ne peut pas déverrouiller la pièce {self.name}.")
+                return False
+        else:
+            print(f"La pièce {self.name} n'est pas verrouillée.")
+            return True

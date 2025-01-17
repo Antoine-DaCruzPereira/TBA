@@ -1,4 +1,6 @@
 # Define the Player class.
+from room import Room
+
 class Player():
 
     # Define the constructor.
@@ -15,6 +17,13 @@ class Player():
         next_room = self.current_room.exits[direction]
 
         self.history.append(self.current_room)
+        
+        if isinstance(next_room, Room) and next_room.locked:
+            key_needed = next_room.key_id
+            print(f"La pièce {next_room.name} est verrouillée. Vous avez besoin de {key_needed}")
+            print("\nSorties disponibles dans cette pièce :")
+            print(self.current_room.get_exit_string())
+            return False
 
         # If the next room is None, print an error message and return False.
         if next_room is None:
