@@ -128,8 +128,8 @@ class Game:
         # Setup Item
 
         Combinaison_Hazmat = item("Combinaison Hazmat", "Une combinaison qui permet de vous protéger des radiations présentes dans la centrale, sans elle vous mourrez des radiations instantanément.",6.6,"lv0") 
-        Carte_accès_LvL_1 = item("Carte d'accès LvL 1", "Cette carte d’accès vous permet d’accéder aux salles de contrôles 1 et 2.",0.01,"lv1")
-        Carte_accès_LvL_2 = item("Carte d'accès LvL 2", "Cette carte d’accès vous permet d’accéder aux réacteurs 1 et 2.",0.01,"lv2")
+        Carte_accès_LvL_1 = item("Carte d'accès LvL 1", "Cette carte d’accès vous permet d’accéder à la salle du personnel.",0.01,"lv1")
+        Carte_accès_LvL_2 = item("Carte d'accès LvL 2", "Cette carte d’accès vous permet d’accéder aux réacteur 2 et 4.",0.01,"lv2")
         Pierre_Radioactive = item("Pierre Radioactive", "Permet de faire évoluer votre évoli en Nucléon.",0.216)
         Pierre_Feu = item("Pierre Feu","Permet de faire évoluer votre évoli en Pyroli.",0.216)
         Pierre_Eau = item("Pierre Eau","Permet de faire évoluer votre évoli en Aquali.",0.216)
